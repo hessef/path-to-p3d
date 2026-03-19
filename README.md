@@ -193,7 +193,7 @@ By the end of this project you will be able to:
 
 **Atlus / Persona 3 Asset Tools**
 - [Amicitia](https://github.com/tge-was-taken/Amicitia)
-- [AtlusScriptToolchain](https://github.com/tge-was-taken/AtlusScriptToolchain)
+- [AtlusScriptToolchain](https://github.com/tge-was-taken/Atlus-Script-Tools)
 - [PersonaEditor](https://github.com/Secre-C/PersonaEditor)
 - [GFD-Studio](https://github.com/tge-was-taken/GFD-Studio)
 - [Atlus Modding Discord](https://discord.gg/naoto)
@@ -595,7 +595,7 @@ To avoid legal issues, the port is distributed as a build system and patch tool 
 ## Community Resources
 
 - [Amicitia (Atlus format tools)](https://github.com/tge-was-taken/Amicitia)
-- [AtlusScriptToolchain (BMD script format)](https://github.com/tge-was-taken/AtlusScriptToolchain)
+- [AtlusScriptToolchain (BMD script format)](https://github.com/tge-was-taken/Atlus-Script-Tools)
 - [GFD-Studio (model viewer/editor)](https://github.com/tge-was-taken/GFD-Studio)
 - [PersonaEditor](https://github.com/Secre-C/PersonaEditor)
 - [PCSX2 (PS2 emulator — hardware reference)](https://github.com/PCSX2/pcsx2)
