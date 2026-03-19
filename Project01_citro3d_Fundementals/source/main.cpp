@@ -121,6 +121,7 @@ static DVLB_s* vshader_dvlb;
 static shaderProgram_s program;
 static int uLoc_projection, uLoc_modelView;
 static int uLoc_lightVec, uLoc_lightHalfVec, uLoc_lightClr, uLoc_material;
+static int uLoc_viewPos;
 static C3D_Mtx projection;
 static C3D_Mtx material =
 {
@@ -162,12 +163,13 @@ static int sceneInit(void)
 	C3D_BindProgram(&program);
 
 	// Get the location of the uniforms
-	uLoc_projection   = shaderInstanceGetUniformLocation(program.vertexShader, "projection");
-	uLoc_modelView    = shaderInstanceGetUniformLocation(program.vertexShader, "modelView");
-	uLoc_lightVec     = shaderInstanceGetUniformLocation(program.vertexShader, "lightVec");
-	uLoc_lightHalfVec = shaderInstanceGetUniformLocation(program.vertexShader, "lightHalfVec");
-	uLoc_lightClr     = shaderInstanceGetUniformLocation(program.vertexShader, "lightClr");
-	uLoc_material     = shaderInstanceGetUniformLocation(program.vertexShader, "material");
+	uLoc_projection   	= shaderInstanceGetUniformLocation(program.vertexShader, "projection");
+	uLoc_modelView    	= shaderInstanceGetUniformLocation(program.vertexShader, "modelView");
+	uLoc_lightVec     	= shaderInstanceGetUniformLocation(program.vertexShader, "lightVec");
+	uLoc_lightHalfVec 	= shaderInstanceGetUniformLocation(program.vertexShader, "lightHalfVec");
+	uLoc_lightClr     	= shaderInstanceGetUniformLocation(program.vertexShader, "lightClr");
+	uLoc_material     	= shaderInstanceGetUniformLocation(program.vertexShader, "material");
+	uLoc_viewPos	  	= shaderInstanceGetUniformLocation(program.vertexShader, "viewPos");
 
 	// Configure attributes for use with the vertex shader
 	C3D_AttrInfo* attrInfo = C3D_GetAttrInfo();
@@ -209,13 +211,16 @@ static int sceneInit(void)
 	//set up rendering environment
 	C3D_TexEnv* env = C3D_GetTexEnv(0);
 	C3D_TexEnvInit(env);
-	C3D_TexEnvColor(env, 0xFFFFFF80); //set 50% transparency
+	C3D_TexEnvColor(env, 0x80FFFFFF); //set 50% transparency (remember first two bytes are alpha)
 
 	//set RGB and Alpha sources and functions separately
 	C3D_TexEnvSrc(env, C3D_RGB, GPU_TEXTURE0, GPU_PRIMARY_COLOR, GPU_PRIMARY_COLOR);
 	C3D_TexEnvSrc(env, C3D_Alpha, GPU_CONSTANT, GPU_CONSTANT, GPU_CONSTANT);
-	C3D_TexEnvFunc(env, C3D_Both, GPU_MODULATE);
+	C3D_TexEnvFunc(env, C3D_RGB, GPU_MODULATE);
 	C3D_TexEnvFunc(env, C3D_Alpha, GPU_REPLACE);
+
+	//disable tests to make sure it renders properly
+	C3D_AlphaTest(false, GPU_ALWAYS, 0);
 
 	return vertex_count;
 }
@@ -244,6 +249,12 @@ static void sceneRender(int vertex_count)
 	C3D_FVUnifSet(GPU_VERTEX_SHADER, uLoc_lightVec,     0.0f, 0.0f, -1.0f, 0.0f);
 	C3D_FVUnifSet(GPU_VERTEX_SHADER, uLoc_lightHalfVec, 0.0f, 0.0f, -1.0f, 0.0f);
 	C3D_FVUnifSet(GPU_VERTEX_SHADER, uLoc_lightClr,     1.0f, 1.0f,  1.0f, 1.0f);
+	C3D_FVUnifSet(GPU_VERTEX_SHADER, uLoc_viewPos, 0.0f, 0.0f, 0.0f, 1.0f);			//just pass the origin directly
+
+	//ensure alpha blend is not reset
+	C3D_AlphaBlend(GPU_BLEND_ADD, GPU_BLEND_ADD,
+		GPU_SRC_ALPHA, GPU_ONE_MINUS_SRC_ALPHA,
+		GPU_SRC_ALPHA, GPU_ONE_MINUS_SRC_ALPHA);
 
 	// Draw the VBO
 	C3D_DrawArrays(GPU_TRIANGLES, 0, vertex_count);

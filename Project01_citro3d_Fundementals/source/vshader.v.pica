@@ -33,6 +33,7 @@
 	dp4 r1.y, modelView[1], r0
 	dp4 r1.z, modelView[2], r0
 	dp4 r1.w, modelView[3], r0
+	mov r3, -r1		; save negated view-space vertex position into r3
 
 	; outpos = projection * r1
 	dp4 outpos.x, projection[0], r1
@@ -54,6 +55,7 @@
 	dp3 r2,     r1, r1 ; r2 = x^2+y^2+z^2 for each component
 	rsq r2,     r2     ; r2 = 1/sqrt(r2)  ''
 	mul r1,     r2, r1 ; r1 = r1*r2
+	mov r5,		r1	   ; save normalized view-space normal into r5
 
 	; Calculate the diffuse level (r0.x) and the shininess level (r0.y)
 	; r0.x = max(0, -(lightVec * r1))
@@ -78,6 +80,13 @@
 	; r1 += ambientColor * lightClr
 	mov r2, lightClr
 	mad r1, r2, mat_amb, r1
+
+	; Apply Fresnel effect
+	dp3 r4, r3, r3			; squared length
+	rsq r4, r4				; 1/sqrt
+	mul r3, r4, r3			; normalized view direction
+	dp3 r4.x, r3, r5		; Fresnel = dot(viewDir, normal)
+	mov r1.w, r4.x			; put Fresnel into alpha channel before clamping
 
 	; outclr = clamp r1 to [0,1]
 	min outclr, ones, r1
