@@ -10,4 +10,34 @@ While the PICA200 is advertised as supporting OpenGL ES 1.1, it does have a few 
 
 ### Section 2: Alpha Blending on PICA200
 
-Alpha blending is a graphics technique that simulates transparency by combining the color of an object with the color of whatever is behind it. 
+Alpha blending is a graphics technique that simulates transparency by combining the color of an object with the color of whatever is behind it. To achieve this with the PICA200, the **C3D_AlphaBlend** command is used to set the alpha blending pattern. In my case, I did
+
+```c++
+C3D_AlphaBlend(GPU_BLEND_ADD, GPU_BLEND_ADD,
+		GPU_SRC_ALPHA, GPU_ONE_MINUS_SRC_ALPHA,
+		GPU_SRC_ALPHA, GPU_ONE_MINUS_SRC_ALPHA);
+```
+
+which sets the mode to additive blending, using the alpha from the source. The source in this case is the image texture. If the texture does not have an alpha channel or is completely opaque, like mine is, it is possible to manually set the alpha level and pass that through to the PICA200. That is enough to enforce uniform transparency across an entire texture, but if modulated alpha blending is required, it is necessary to write some additions to the generic picasso assembly code. This assembly code is also called a shader file.
+
+For this project, I modified the shader file to implement the Fresnel Effect. To do this, the necessary calculations were done and then applied to the alpha channel of the pre-clamped output value. My modifications to the code are shown below:
+
+```
+...
+mov r5,		r1	        ; save normalized view-space normal into r5
+...
+; Apply Fresnel effect
+dp3 r4, r3, r3			; squared length
+rsq r4, r4				; 1/sqrt
+mul r3, r4, r3			; normalized view direction
+dp3 r4.x, r3, r5		; Fresnel = dot(viewDir, normal)
+mov r1.w, r4.x			; put Fresnel into alpha channel before clamping
+```
+
+---
+
+### Section 3: Reflection
+
+This project allowed me to learn about the 3DS rendering pipeline, from importing geometry to creating custom shader behavior. Along the way a few things surprised me or were otherwise interesting. The fact that .obj files have an inverted vertical axis for texture coordinates, for instance, was very surprising. The industry standard for image UVs is to have the origin at the top left of the image with the horizontal axis extending to the right and the vertical axis extending down. But in .obj files, the origin is at the bottom left, with the horizontal and vertical axes extending to the right and up, respectively. This felt like an odd design choice since most rendering applications and GPU APIs use the standard format.
+
+Another interesting thing I learned was the way that rendering tasks are split between the Central Processing Unit (CPU) and the GPU. I knew on a theoretical level that the CPU handled draw calls and buffer allocation while the GPU just crunched numbers and did linear algebra before engaging in this project, but actually programming the behavior myself instead of just relying on a high-level abstraction really made it sink in.
