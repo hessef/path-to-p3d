@@ -1,5 +1,5 @@
 main.o: \
- C:/Users/there/Documents/3DS_Programs/PathToP3D/Project1_citro3d_Fundementals/source/main.cpp \
+ C:/Users/there/Documents/Persona3D/PathToP3D/Project1_citro3d_Fundementals/source/main.cpp \
  C:/devkitPro/libctru-master/libctru/include/3ds.h \
  C:/devkitPro/libctru-master/libctru/include/3ds/types.h \
  C:/devkitPro/libctru-master/libctru/include/3ds/result.h \
@@ -105,9 +105,9 @@ main.o: \
  C:/devkitPro/libctru-master/libctru/include/c3d/framebuffer.h \
  C:/devkitPro/libctru-master/libctru/include/c3d/renderqueue.h \
  C:/devkitPro/libctru-master/libctru/include/tex3ds.h \
- C:/Users/there/Documents/3DS_Programs/PathToP3D/Project1_citro3d_Fundementals/build/vshader_shbin.h \
- C:/Users/there/Documents/3DS_Programs/PathToP3D/Project1_citro3d_Fundementals/build/kitten_t3x.h \
- C:/Users/there/Documents/3DS_Programs/PathToP3D/Project1_citro3d_Fundementals/include/tiny_obj_loader.h
+ C:/Users/there/Documents/Persona3D/PathToP3D/Project1_citro3d_Fundementals/build/vshader_shbin.h \
+ C:/Users/there/Documents/Persona3D/PathToP3D/Project1_citro3d_Fundementals/build/kitten_t3x.h \
+ C:/Users/there/Documents/Persona3D/PathToP3D/Project1_citro3d_Fundementals/include/tiny_obj_loader.h
 C:/devkitPro/libctru-master/libctru/include/3ds.h:
 C:/devkitPro/libctru-master/libctru/include/3ds/types.h:
 C:/devkitPro/libctru-master/libctru/include/3ds/result.h:
@@ -213,6 +213,6 @@ C:/devkitPro/libctru-master/libctru/include/c3d/fog.h:
 C:/devkitPro/libctru-master/libctru/include/c3d/framebuffer.h:
 C:/devkitPro/libctru-master/libctru/include/c3d/renderqueue.h:
 C:/devkitPro/libctru-master/libctru/include/tex3ds.h:
-C:/Users/there/Documents/3DS_Programs/PathToP3D/Project1_citro3d_Fundementals/build/vshader_shbin.h:
-C:/Users/there/Documents/3DS_Programs/PathToP3D/Project1_citro3d_Fundementals/build/kitten_t3x.h:
-C:/Users/there/Documents/3DS_Programs/PathToP3D/Project1_citro3d_Fundementals/include/tiny_obj_loader.h:
+C:/Users/there/Documents/Persona3D/PathToP3D/Project1_citro3d_Fundementals/build/vshader_shbin.h:
+C:/Users/there/Documents/Persona3D/PathToP3D/Project1_citro3d_Fundementals/build/kitten_t3x.h:
+C:/Users/there/Documents/Persona3D/PathToP3D/Project1_citro3d_Fundementals/include/tiny_obj_loader.h:

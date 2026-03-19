@@ -1,4 +1,5 @@
 //using devkitPro textured_cube example as starting point
+//needs to be in c++, not c, for tiny obj loader's dependencies
 
 #include <3ds.h>
 #include <citro3d.h>
